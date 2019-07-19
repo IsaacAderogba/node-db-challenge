@@ -21,5 +21,17 @@ module.exports = {
     } else {
       res.status(400).json({ message: `The Id of '${id}' is not valid` });
     }
+  },
+  validateBody: function(req, res, next) {
+    const { name, description, isCompleted } = req.body;
+
+
+    if (!name || !description || ( isCompleted !== false && isCompleted !== true))
+      res.status(400).json({
+        message: "Missing required fields: name, description, isCompleted"
+      });
+
+    req.newProject = { name, description, isCompleted };
+    next();
   }
 };

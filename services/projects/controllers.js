@@ -6,5 +6,11 @@ module.exports = {
   },
   getProjectById: async function(id) {
     return Projects.findProjectById(id);
+  },
+  getActionsByProjectId: async function(id) {
+    return Projects.findActionsByProjectId(id);
+  },
+  postProject: async function(project) {
+    return Projects.insertProject(project);
   }
 }

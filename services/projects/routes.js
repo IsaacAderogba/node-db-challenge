@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("./controllers");
-const { validateId } = require('./middleware');
+const { validateId, validateBody } = require("./middleware");
 
 router.get("/projects", async (req, res, next) => {
   try {
@@ -12,12 +12,28 @@ router.get("/projects", async (req, res, next) => {
   }
 });
 
-router.get("/projects/:id", validateId, (req, res, next) => {
+router.get("/projects/:id", validateId, async (req, res, next) => {
   try {
-    res.status(200).json(req.project);
+    const actions = await controller.getActionsByProjectId(req.params.id);
+
+    const projectWithActions = {
+      ...req.project,
+      actions
+    };
+
+    res.status(200).json(projectWithActions);
   } catch (err) {
     next(err);
   }
 });
+
+router.post("/projects", validateBody, async (req, res, next) => {
+  try {
+    const newProject = await controller.postProject(req.newProject);
+    res.status(201).json(newProject)
+  } catch (err) {
+    next(err)
+  }
+})
 
 module.exports = router;
