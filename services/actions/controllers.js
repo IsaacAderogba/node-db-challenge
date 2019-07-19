@@ -6,5 +6,8 @@ module.exports = {
   },
   getActionById: async function(id) {
     return await Actions.findActionById(id);
+  },
+  postAction: async function(action, id) {
+    return await Actions.insertAction({...action, projects_id: id});
   }
 }

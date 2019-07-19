@@ -5,7 +5,11 @@ module.exports = {
     return db("actions");
   },
   findActionById: function(id) {
-    return db("actions").where({id});
+    return db("actions").where({ id }).first();
   },
-  insertActionByProjectId: function() {}
+  insertAction: function(action) {
+    return db("actions")
+      .insert(action)
+      .then(([id]) => this.findActionById(id));
+  }
 };

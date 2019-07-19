@@ -1,3 +1,4 @@
+/* eslint-disable require-atomic-updates */
 const controller = require("./controllers");
 
 module.exports = {
@@ -20,5 +21,20 @@ module.exports = {
     } else {
       res.status(400).json({ message: `The Id of '${id}' is not valid` });
     }
+  },
+  validateActionBody: async function(req, res, next) {
+    const { description, notes, isCompleted } = req.body;
+
+    if (
+      !description ||
+      !notes ||
+      (isCompleted !== false && isCompleted !== true)
+    )
+      res.status(400).json({
+        message: "Missing required fields: description, notes, isCompleted"
+      });
+
+    req.newAction = { description, notes, isCompleted };
+    next();
   }
 };
