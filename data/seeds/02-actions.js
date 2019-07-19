@@ -1,13 +1,27 @@
+const faker = require("faker");
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+const createFakeActions = () => ({
+  description: faker.lorem.sentence(),
+  notes: faker.lorem.words(),
+  isCompleted: faker.random.boolean(),
+  projects_id: 1 + getRandomInt(9)
+});
 
 exports.seed = function(knex) {
   // Deletes ALL existing entries
-  return knex('table_name').del()
-    .then(function () {
-      // Inserts seed entries
-      return knex('table_name').insert([
-        {id: 1, colName: 'rowValue1'},
-        {id: 2, colName: 'rowValue2'},
-        {id: 3, colName: 'rowValue3'}
-      ]);
+  return knex("actions")
+    .truncate()
+    .then(function() {
+      const fakeActions = [];
+      const numberOfActions = 50;
+
+      for (let i = 0; i < numberOfActions; i++) {
+        fakeActions.push(createFakeActions());
+      }
+      return knex("actions").insert(fakeActions);
     });
 };
