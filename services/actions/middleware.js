@@ -8,7 +8,9 @@ module.exports = {
       try {
         const action = await controller.getActionById(id);
         if (action) {
+          const context = await controller.getContextsByActionId(id);
           req.action = action;
+          req.context = context;
           next();
         } else {
           res

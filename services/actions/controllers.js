@@ -9,5 +9,8 @@ module.exports = {
   },
   postAction: async function(action, id) {
     return await Actions.insertAction({...action, projects_id: id});
+  },
+  getContextsByActionId: async function(id) {
+    return await Actions.findContextsByAction(id);
   }
 }
