@@ -11,9 +11,6 @@ exports.up = function(knex) {
       table.text("description").notNullable();
       table.text("notes").notNullable();
       table.boolean("isCompleted").notNullable();
-    })
-    .createTable("projects_actions", table => {
-      table.increments();
       table
         .integer("projects_id")
         .unsigned()
@@ -22,20 +19,11 @@ exports.up = function(knex) {
         .inTable("projects")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-      table
-        .integer("actions_id")
-        .unsigned()
-        .notNullable()
-        .references("id")
-        .inTable("actions")
-        .onUpdate("CASCADE")
-        .onDelete("CASCADE");
-    });
+    })
 };
 
 exports.down = function(knex) {
   return knex.schema
-    .dropTableIfExists("projects_actions")
     .dropTableIfExists("actions")
     .dropTableIfExists("projects");
 };
