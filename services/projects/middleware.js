@@ -2,7 +2,7 @@
 const controller = require("./controllers");
 
 module.exports = {
-  validateId: async function(req, res, next) {
+  validateProjectId: async function(req, res, next) {
     const { id } = req.params;
     if (Number.isInteger(parseInt(id, 10))) {
       try {
@@ -22,7 +22,7 @@ module.exports = {
       res.status(400).json({ message: `The Id of '${id}' is not valid` });
     }
   },
-  validateBody: function(req, res, next) {
+  validateProjectBody: function(req, res, next) {
     const { name, description, isCompleted } = req.body;
 
 
